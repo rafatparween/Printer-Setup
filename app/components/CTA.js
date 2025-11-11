@@ -36,7 +36,7 @@ export default function CTA() {
             <span className="text-amber-200">Today</span>
           </h2>
           <p className="text-xl lg:text-2xl text-emerald-100 mb-8 max-w-3xl mx-auto leading-relaxed">
-            Join thousands of innovative teams who use Nova to build better products faster. Start your free trial today and experience the difference.
+            Join thousands of innovative teams who use SetupHPPrinterter products faster. Start your free trial today and experience the difference.
           </p>
 
           <motion.div

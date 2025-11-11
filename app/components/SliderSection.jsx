@@ -560,7 +560,7 @@ const mediaData = [
 // Navigation items
 const navItems = [
   { name: 'Home', href: '/' },
-  { name: 'Products', href: '/products' },
+  { name: 'Blog', href: '/blog' },
   { name: 'Support', href: '/support' },
   { name: 'About', href: '/about' },
   { name: 'Contact', href: '/contact'}
@@ -656,7 +656,7 @@ const SliderSection = () => {
                 </svg>
               </div>
               <div className={`${scrolled ? 'text-gray-900' : 'text-white'}`}>
-                <div className="text-2xl font-bold tracking-tight font-outfit">PrintPro</div>
+                <div className="text-2xl font-bold tracking-tight font-outfit">SetupHPPrinter</div> 
                 <div className="text-xs text-emerald-600 tracking-widest">PREMIUM PRINTING</div>
               </div>
             </motion.div>

@@ -35,7 +35,7 @@ const Footer = () => {
               </div>
               <div>
                 <h2 className="text-3xl font-bold text-white font-outfit group-hover:scale-105 transition-transform duration-300">
-                  Hewlett <span className="bg-gradient-to-r from-emerald-400 to-amber-400 bg-clip-text text-transparent">Printer</span> Solutions
+                 Setup<span className="bg-gradient-to-r from-emerald-400 to-amber-400 bg-clip-text text-transparent">HP</span>Printer
                 </h2>
                 <p className="text-emerald-300 text-sm mt-1 font-medium">Premium Technical Solutions</p>
               </div>
@@ -146,10 +146,10 @@ const Footer = () => {
                   <span className="text-emerald-400 group-hover:text-amber-400">✉️</span>
                 </div>
                 <a
-                  href="mailto:support@hewlettprintersolution.com"
+                  href="mailto:support@setuphpprinter.com"
                   className="text-emerald-200 hover:text-amber-300 transition-colors duration-300 font-medium"
                 >
-                  support@hewlettprintersolution.com
+                  support@setuphpprinter.com
                 </a>
               </div>
             </div>
@@ -228,7 +228,7 @@ const Footer = () => {
         >
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <p className="text-emerald-300 font-medium">
-              &copy; {new Date().getFullYear()} Hewlett Printer Solutions. All rights reserved.
+              &copy; {new Date().getFullYear()}  SetupHPPrinter. All rights reserved.
             </p>
             <div className="flex space-x-6 text-emerald-300 font-medium">
               <Link href="/privacy" className="hover:text-amber-300 transition-colors duration-300">

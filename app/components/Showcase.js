@@ -28,7 +28,7 @@ export default function Showcase() {
             Loved by Teams at
           </h2>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Join thousands of innovative teams who trust Nova to build their most important products.
+            Join thousands of innovative teams who trust SetupHPPrinter their most important products.
           </p>
         </motion.div>
 
