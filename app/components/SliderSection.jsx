@@ -529,25 +529,28 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-// Video data with minimal content
-const videoData = [
+// Video and image data with minimal content
+const mediaData = [
   {
     id: 1,
-    video: 'https://assets.mixkit.co/videos/preview/mixkit-close-up-of-a-printer-printing-documents-43355-large.mp4',
+    type: 'video',
+    src: 'https://cdn.pixabay.com/video/2023/05/06/161899-824623452_tiny.mp4',
     title: 'Precision Printing',
     subtitle: 'Crystal Clear Quality',
     duration: '0:15'
   },
   {
     id: 2,
-    video: 'https://assets.mixkit.co/videos/preview/mixkit-office-worker-printing-documents-43297-large.mp4',
+    type: 'image',
+    src: 'https://images.pexels.com/photos/29647857/pexels-photo-29647857.jpeg?_gl=1*1csqc0s*_ga*NzE4MzM2NzMyLjE3NTU3OTE3MDg.*_ga_8JE65Q40S6*czE3NjI4NDE0MzAkbzckZzEkdDE3NjI4NDI0NjEkajQxJGwwJGgw',
     title: 'Office Excellence',
     subtitle: 'Seamless Workflow',
     duration: '0:12'
   },
   {
     id: 3,
-    video: 'https://assets.mixkit.co/videos/preview/mixkit-close-up-of-a-modern-printer-43354-large.mp4',
+    type: 'image',
+    src: 'https://images.pexels.com/photos/12489125/pexels-photo-12489125.jpeg?_gl=1*1x3v3j*_ga*NzE4MzM2NzMyLjE3NTU3OTE3MDg.*_ga_8JE65Q40S6*czE3NjI4NDE0MzAkbzckZzEkdDE3NjI4NDIyMjgkajU5JGwwJGgw',
     title: 'Modern Technology',
     subtitle: 'Smart & Efficient',
     duration: '0:18'
@@ -556,12 +559,11 @@ const videoData = [
 
 // Navigation items
 const navItems = [
-  { name: 'Home', href: '/', icon: '🏠' },
-  { name: 'Products', href: '/products', icon: '🖨️' },
-  { name: 'Solutions', href: '/solutions', icon: '💡' },
-  { name: 'Support', href: '/support', icon: '🔧' },
-  { name: 'About', href: '/about', icon: '👥' },
-  { name: 'Contact', href: '/contact', icon: '📞' }
+  { name: 'Home', href: '/' },
+  { name: 'Products', href: '/products' },
+  { name: 'Support', href: '/support' },
+  { name: 'About', href: '/about' },
+  { name: 'Contact', href: '/contact'}
 ];
 
 const SliderSection = () => {
@@ -595,17 +597,17 @@ const SliderSection = () => {
 
   // Play video when slide changes
   useEffect(() => {
-    if (videoRefs.current[currentSlide]) {
+    if (mediaData[currentSlide].type === 'video' && videoRefs.current[currentSlide]) {
       videoRefs.current[currentSlide].play().catch(console.error);
     }
   }, [currentSlide]);
 
   const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % videoData.length);
+    setCurrentSlide((prev) => (prev + 1) % mediaData.length);
   };
 
   const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + videoData.length) % videoData.length);
+    setCurrentSlide((prev) => (prev - 1 + mediaData.length) % mediaData.length);
   };
 
   const goToSlide = (index) => {
@@ -619,15 +621,22 @@ const SliderSection = () => {
 
   return (
     <section 
-      className="relative h-screen w-full overflow-hidden bg-black"
+      className="relative h-screen w-full overflow-hidden bg-gradient-to-br from-emerald-900 via-gray-900 to-amber-900"
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >
+      {/* Background Animation */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-emerald-500/20 rounded-full blur-3xl animate-float"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-amber-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-emerald-400/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '4s' }}></div>
+      </div>
+
       {/* Awesome Navigation Bar */}
       <motion.nav 
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           scrolled 
-            ? 'bg-black/95 backdrop-blur-xl py-4 shadow-2xl border-b border-white/10' 
+            ? 'bg-white/95 backdrop-blur-xl py-4 shadow-2xl border-b border-emerald-100' 
             : 'bg-transparent py-6'
         }`}
         initial={{ y: -100 }}
@@ -641,14 +650,14 @@ const SliderSection = () => {
               className="flex items-center space-x-4"
               whileHover={{ scale: 1.05 }}
             >
-              <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-2xl">
+              <div className="w-12 h-12 bg-gradient-to-br from-emerald-600 to-amber-500 rounded-2xl flex items-center justify-center shadow-2xl">
                 <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
                 </svg>
               </div>
-              <div className="text-white">
-                <div className="text-2xl font-bold tracking-tight">PrintPro</div>
-                <div className="text-xs text-white/60 tracking-widest">PREMIUM PRINTING</div>
+              <div className={`${scrolled ? 'text-gray-900' : 'text-white'}`}>
+                <div className="text-2xl font-bold tracking-tight font-outfit">PrintPro</div>
+                <div className="text-xs text-emerald-600 tracking-widest">PREMIUM PRINTING</div>
               </div>
             </motion.div>
 
@@ -666,10 +675,12 @@ const SliderSection = () => {
                   <Link
                     href={item.href}
                     className={`
-                      flex items-center space-x-2 px-6 py-3 rounded-xl text-sm font-medium transition-all duration-300 relative group
+                      flex items-center space-x-2 px-6 py-3 rounded-xl text-sm font-medium transition-all duration-300 relative group font-outfit
                       ${pathname === item.href 
-                        ? 'text-white bg-white/10 backdrop-blur-md' 
-                        : 'text-white/70 hover:text-white hover:bg-white/5'
+                        ? 'text-white bg-gradient-to-r from-emerald-600/20 to-amber-500/20 backdrop-blur-md border border-emerald-200/30' 
+                        : scrolled 
+                          ? 'text-gray-700 hover:text-emerald-600 hover:bg-emerald-50' 
+                          : 'text-white/70 hover:text-white hover:bg-white/5'
                       }
                     `}
                   >
@@ -679,20 +690,12 @@ const SliderSection = () => {
                     {/* Active indicator */}
                     {pathname === item.href && (
                       <motion.div
-                        className="absolute bottom-2 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-blue-400 rounded-full"
+                        className="absolute bottom-2 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-amber-400 rounded-full"
                         layoutId="activeIndicator"
                         transition={{ type: "spring", stiffness: 300, damping: 30 }}
                       />
                     )}
                   </Link>
-                  
-                  {/* Hover tooltip */}
-                  <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                    <div className="bg-black/90 backdrop-blur-md text-white px-3 py-2 rounded-lg text-xs whitespace-nowrap border border-white/10">
-                      {item.name}
-                      <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-black/90 rotate-45 border-t border-l border-white/10"></div>
-                    </div>
-                  </div>
                 </motion.div>
               ))}
             </div>
@@ -701,7 +704,11 @@ const SliderSection = () => {
             <div className="hidden lg:flex items-center space-x-4">
               {/* Search */}
               <motion.button 
-                className="w-10 h-10 flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 rounded-xl transition-all duration-300"
+                className={`w-10 h-10 flex items-center justify-center transition-all duration-300 rounded-xl ${
+                  scrolled 
+                    ? 'text-gray-700 hover:text-emerald-600 hover:bg-emerald-50' 
+                    : 'text-white/70 hover:text-white hover:bg-white/10'
+                }`}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
               >
@@ -711,39 +718,44 @@ const SliderSection = () => {
               </motion.button>
 
               {/* Cart */}
-              <motion.button 
-                className="w-10 h-10 flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 rounded-xl transition-all duration-300 relative"
+              {/* <motion.button 
+                className={`w-10 h-10 flex items-center justify-center transition-all duration-300 rounded-xl relative ${
+                  scrolled 
+                    ? 'text-gray-700 hover:text-emerald-600 hover:bg-emerald-50' 
+                    : 'text-white/70 hover:text-white hover:bg-white/10'
+                }`}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                 </svg>
-                <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
+                <span className="absolute -top-1 -right-1 w-4 h-4 bg-amber-500 text-white text-xs rounded-full flex items-center justify-center shadow-lg">
                   3
                 </span>
-              </motion.button>
+              </motion.button> */}
 
               {/* Get Quote Button */}
               <motion.button
-                className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-3 rounded-xl text-sm font-semibold hover:from-blue-600 hover:to-purple-700 transition-all duration-300 shadow-2xl"
+                className="bg-gradient-to-r from-emerald-600 to-amber-500 text-white px-6 py-3 rounded-xl text-sm font-semibold hover:shadow-xl transition-all duration-300 relative overflow-hidden group"
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}
               >
-                Get Quote
+                <span className="relative z-10">Get Quote</span>
+                <div className="absolute inset-0 bg-gradient-to-r from-emerald-700 to-amber-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </motion.button>
             </div>
 
             {/* Mobile Menu Button */}
             <motion.button 
-              className="lg:hidden text-white p-2"
+              className={`lg:hidden p-2 ${scrolled ? 'text-gray-700' : 'text-white'}`}
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               whileTap={{ scale: 0.9 }}
             >
               <div className="w-6 h-6 relative">
-                <span className={`absolute left-0 w-6 h-0.5 bg-white transition-all duration-300 ${isMobileMenuOpen ? 'top-3 rotate-45' : 'top-2'}`} />
-                <span className={`absolute left-0 top-3 w-6 h-0.5 bg-white transition-all duration-300 ${isMobileMenuOpen ? 'opacity-0' : 'opacity-100'}`} />
-                <span className={`absolute left-0 w-6 h-0.5 bg-white transition-all duration-300 ${isMobileMenuOpen ? 'top-3 -rotate-45' : 'top-4'}`} />
+                <span className={`absolute left-0 w-6 h-0.5 transition-all duration-300 ${isMobileMenuOpen ? 'top-3 rotate-45' : 'top-2'} ${scrolled ? 'bg-gray-700' : 'bg-white'}`} />
+                <span className={`absolute left-0 top-3 w-6 h-0.5 transition-all duration-300 ${isMobileMenuOpen ? 'opacity-0' : 'opacity-100'} ${scrolled ? 'bg-gray-700' : 'bg-white'}`} />
+                <span className={`absolute left-0 w-6 h-0.5 transition-all duration-300 ${isMobileMenuOpen ? 'top-3 -rotate-45' : 'top-4'} ${scrolled ? 'bg-gray-700' : 'bg-white'}`} />
               </div>
             </motion.button>
           </div>
@@ -752,7 +764,7 @@ const SliderSection = () => {
           <AnimatePresence>
             {isMobileMenuOpen && (
               <motion.div
-                className="lg:hidden mt-4 bg-black/95 backdrop-blur-xl rounded-2xl p-6 border border-white/10 shadow-2xl"
+                className="lg:hidden mt-4 bg-white/95 backdrop-blur-xl rounded-2xl p-6 border border-emerald-100 shadow-2xl"
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: 'auto' }}
                 exit={{ opacity: 0, height: 0 }}
@@ -764,10 +776,10 @@ const SliderSection = () => {
                       key={item.name}
                       href={item.href}
                       className={`
-                        flex items-center space-x-3 px-4 py-3 rounded-xl text-white transition-all duration-300
+                        flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-300 font-outfit
                         ${pathname === item.href 
-                          ? 'bg-white/10 border border-white/20' 
-                          : 'hover:bg-white/5'
+                          ? 'bg-gradient-to-r from-emerald-600/10 to-amber-500/10 border border-emerald-200 text-emerald-700' 
+                          : 'text-gray-700 hover:text-emerald-600 hover:bg-emerald-50'
                         }
                       `}
                       onClick={() => setIsMobileMenuOpen(false)}
@@ -778,11 +790,11 @@ const SliderSection = () => {
                   ))}
                   
                   {/* Mobile Actions */}
-                  <div className="flex space-x-3 pt-4 border-t border-white/10">
-                    <button className="flex-1 bg-white/10 text-white px-4 py-3 rounded-xl text-sm font-medium hover:bg-white/20 transition-colors">
+                  <div className="flex space-x-3 pt-4 border-t border-emerald-100">
+                    <button className="flex-1 bg-emerald-50 text-emerald-700 px-4 py-3 rounded-xl text-sm font-medium hover:bg-emerald-100 transition-colors font-outfit">
                       Search
                     </button>
-                    <button className="flex-1 bg-gradient-to-r from-blue-500 to-purple-600 text-white px-4 py-3 rounded-xl text-sm font-semibold hover:from-blue-600 hover:to-purple-700 transition-all">
+                    <button className="flex-1 bg-gradient-to-r from-emerald-600 to-amber-500 text-white px-4 py-3 rounded-xl text-sm font-semibold hover:shadow-lg transition-all font-outfit">
                       Get Quote
                     </button>
                   </div>
@@ -793,7 +805,7 @@ const SliderSection = () => {
         </div>
       </motion.nav>
 
-      {/* Video Background Slides */}
+      {/* Media Background Slides */}
       <div className="relative h-full w-full">
         <AnimatePresence mode="wait">
           <motion.div
@@ -804,17 +816,25 @@ const SliderSection = () => {
             exit={{ opacity: 0 }}
             transition={{ duration: 1.5, ease: "easeInOut" }}
           >
-            <video
-              ref={el => videoRefs.current[currentSlide] = el}
-              src={videoData[currentSlide].video}
-              muted
-              loop
-              playsInline
-              className="h-full w-full object-cover"
-            />
+            {mediaData[currentSlide].type === 'video' ? (
+              <video
+                ref={el => videoRefs.current[currentSlide] = el}
+                src={mediaData[currentSlide].src}
+                muted
+                loop
+                playsInline
+                className="h-full w-full object-cover"
+              />
+            ) : (
+              <img
+                src={mediaData[currentSlide].src}
+                alt={mediaData[currentSlide].title}
+                className="h-full w-full object-cover"
+              />
+            )}
             
-            {/* Dark Overlay */}
-            <div className="absolute inset-0 bg-black/40" />
+            {/* Gradient Overlay */}
+            <div className="absolute inset-0 bg-gradient-to-r from-emerald-900/70 via-emerald-900/40 to-transparent" />
             
             {/* Main Content - Left Side */}
             <div className="absolute inset-0">
@@ -827,21 +847,21 @@ const SliderSection = () => {
                     transition={{ delay: 0.5, duration: 1 }}
                   >
                     <motion.h1 
-                      className="text-7xl md:text-8xl lg:text-9xl font-light text-white mb-6 leading-none"
+                      className="text-7xl md:text-8xl lg:text-9xl font-light text-white mb-6 leading-none font-outfit"
                       initial={{ y: 50, opacity: 0 }}
                       animate={{ y: 0, opacity: 1 }}
                       transition={{ delay: 0.8, duration: 0.8 }}
                     >
-                      {videoData[currentSlide].title}
+                      {mediaData[currentSlide].title}
                     </motion.h1>
                     
                     <motion.p 
-                      className="text-2xl md:text-3xl text-white/80 font-light mb-12"
+                      className="text-2xl md:text-3xl text-emerald-100 font-light mb-12"
                       initial={{ y: 30, opacity: 0 }}
                       animate={{ y: 0, opacity: 1 }}
                       transition={{ delay: 1, duration: 0.8 }}
                     >
-                      {videoData[currentSlide].subtitle}
+                      {mediaData[currentSlide].subtitle}
                     </motion.p>
                     
                     <motion.div
@@ -851,18 +871,22 @@ const SliderSection = () => {
                       transition={{ delay: 1.2, duration: 0.8 }}
                     >
                       <motion.button
-                        className="bg-white text-black px-12 py-4 rounded-full text-lg font-medium hover:bg-gray-100 transition-colors duration-300 shadow-2xl"
+                        className="bg-gradient-to-r from-emerald-600 to-amber-500 text-white px-12 py-4 rounded-full text-lg font-semibold hover:shadow-2xl transition-all duration-300 relative overflow-hidden group"
                         whileHover={{ scale: 1.05, y: -2 }}
                         whileTap={{ scale: 0.95 }}
                       >
-                        Explore Collection
+                        <span className="relative z-10">Explore Collection</span>
+                        <div className="absolute inset-0 bg-gradient-to-r from-emerald-700 to-amber-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                       </motion.button>
                       <motion.button
-                        className="border-2 border-white text-white px-12 py-4 rounded-full text-lg font-medium hover:bg-white hover:text-black transition-all duration-300"
+                        className="border-2 border-emerald-200 text-white px-12 py-4 rounded-full text-lg font-semibold hover:bg-white hover:text-emerald-900 transition-all duration-300 group"
                         whileHover={{ scale: 1.05, y: -2 }}
                         whileTap={{ scale: 0.95 }}
                       >
-                        Watch Demo
+                        <span className="flex items-center gap-2">
+                          <span>🎥</span>
+                          Watch Demo
+                        </span>
                       </motion.button>
                     </motion.div>
                   </motion.div>
@@ -880,7 +904,7 @@ const SliderSection = () => {
             prevSlide();
             handleUserInteraction();
           }}
-          className="bg-white/10 backdrop-blur-md rounded-full p-4 hover:bg-white/20 transition-all duration-300 border border-white/20"
+          className="bg-white/10 backdrop-blur-md rounded-full p-4 hover:bg-emerald-500/30 transition-all duration-300 border border-emerald-200/30"
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
         >
@@ -891,7 +915,7 @@ const SliderSection = () => {
 
         {/* Progress Dots */}
         <div className="flex gap-3">
-          {videoData.map((_, index) => (
+          {mediaData.map((_, index) => (
             <button
               key={index}
               onClick={() => {
@@ -900,8 +924,8 @@ const SliderSection = () => {
               }}
               className={`w-3 h-3 rounded-full transition-all duration-300 ${
                 index === currentSlide 
-                  ? 'bg-white scale-125' 
-                  : 'bg-white/30 hover:bg-white/50 hover:scale-110'
+                  ? 'bg-gradient-to-r from-emerald-400 to-amber-400 scale-125 shadow-lg' 
+                  : 'bg-white/30 hover:bg-amber-300 hover:scale-110'
               }`}
             />
           ))}
@@ -912,7 +936,7 @@ const SliderSection = () => {
             nextSlide();
             handleUserInteraction();
           }}
-          className="bg-white/10 backdrop-blur-md rounded-full p-4 hover:bg-white/20 transition-all duration-300 border border-white/20"
+          className="bg-white/10 backdrop-blur-md rounded-full p-4 hover:bg-amber-500/30 transition-all duration-300 border border-amber-200/30"
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
         >
@@ -922,12 +946,12 @@ const SliderSection = () => {
         </motion.button>
       </div>
 
-      {/* Awesome Video Thumbnails - Perfect Right Side Placement */}
+      {/* Awesome Media Thumbnails - Perfect Right Side Placement */}
       <div className="absolute right-8 top-1/2 transform -translate-y-1/2 z-40">
         <div className="flex flex-col gap-6">
-          {videoData.map((video, index) => (
+          {mediaData.map((media, index) => (
             <motion.div
-              key={video.id}
+              key={media.id}
               className={`relative group cursor-pointer ${
                 index === currentSlide ? 'scale-105' : 'scale-100'
               }`}
@@ -945,56 +969,72 @@ const SliderSection = () => {
               <div className={`
                 relative overflow-hidden rounded-2xl border-2 transition-all duration-500
                 ${index === currentSlide 
-                  ? 'border-white shadow-2xl shadow-white/30 bg-white/10' 
-                  : 'border-white/20 shadow-lg hover:border-white/40 hover:shadow-xl bg-black/30'
+                  ? 'border-emerald-400 shadow-2xl shadow-emerald-500/30 bg-emerald-500/20' 
+                  : 'border-white/30 shadow-lg hover:border-amber-300 hover:shadow-xl bg-black/30'
                 }
               `}>
                 <div className="w-40 h-24 flex items-center justify-center relative">
-                  
-                  {/* Play Icon */}
-                  <div className={`
-                    absolute inset-0 flex items-center justify-center transition-all duration-300
-                    ${index === currentSlide ? 'bg-white/10' : 'bg-black/40 group-hover:bg-white/5'}
-                  `}>
-                    <motion.div
-                      whileHover={{ scale: 1.2 }}
-                      transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                    >
-                      <svg className={`
-                        w-8 h-8 transition-all duration-300
-                        ${index === currentSlide ? 'text-white scale-110' : 'text-white/70 group-hover:text-white group-hover:scale-110'}
-                      `} fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M8 5v14l11-7z"/>
-                      </svg>
-                    </motion.div>
-                  </div>
+                  {media.type === 'video' ? (
+                    // Video thumbnail with play icon
+                    <div className={`
+                      absolute inset-0 flex items-center justify-center transition-all duration-300
+                      ${index === currentSlide ? 'bg-emerald-500/20' : 'bg-black/40 group-hover:bg-amber-500/10'}
+                    `}>
+                      <motion.div
+                        whileHover={{ scale: 1.2 }}
+                        transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                      >
+                        <svg className={`
+                          w-8 h-8 transition-all duration-300
+                          ${index === currentSlide ? 'text-emerald-200 scale-110' : 'text-white/70 group-hover:text-amber-200 group-hover:scale-110'}
+                        `} fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M8 5v14l11-7z"/>
+                        </svg>
+                      </motion.div>
+                    </div>
+                  ) : (
+                    // Image thumbnail
+                    <img
+                      src={media.src}
+                      alt={media.title}
+                      className="w-full h-full object-cover"
+                    />
+                  )}
 
-                  {/* Video Number */}
+                  {/* Media Type Icon */}
                   <div className={`
-                    absolute top-3 left-3 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-300 border-2
+                    absolute top-3 left-3 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-300 border-2 font-outfit
                     ${index === currentSlide 
-                      ? 'bg-white text-black border-white shadow-lg' 
-                      : 'bg-black/60 text-white border-white/30 group-hover:bg-white group-hover:text-black group-hover:border-white'
+                      ? 'bg-gradient-to-r from-emerald-600 to-amber-500 text-white border-emerald-400 shadow-lg' 
+                      : 'bg-black/60 text-white border-white/30 group-hover:bg-amber-500 group-hover:text-white group-hover:border-amber-300'
                     }
                   `}>
-                    {index + 1}
+                    {media.type === 'video' ? (
+                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z"/>
+                      </svg>
+                    ) : (
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                      </svg>
+                    )}
                   </div>
 
                   {/* Duration Badge */}
                   <div className={`
-                    absolute bottom-3 right-3 px-2 py-1 rounded-md text-xs font-semibold transition-all duration-300
+                    absolute bottom-3 right-3 px-2 py-1 rounded-md text-xs font-semibold transition-all duration-300 font-outfit
                     ${index === currentSlide 
-                      ? 'bg-white/90 text-black' 
-                      : 'bg-black/70 text-white/80 group-hover:bg-white/90 group-hover:text-black'
+                      ? 'bg-emerald-500/90 text-white' 
+                      : 'bg-black/70 text-white/80 group-hover:bg-amber-500/90 group-hover:text-white'
                     }
                   `}>
-                    {video.duration}
+                    {media.duration}
                   </div>
 
                   {/* Progress Bar for Active Video */}
-                  {index === currentSlide && (
+                  {index === currentSlide && media.type === 'video' && (
                     <motion.div
-                      className="absolute bottom-0 left-0 right-0 h-1 bg-white origin-left"
+                      className="absolute bottom-0 left-0 right-0 h-1 bg-amber-400 origin-left"
                       initial={{ scaleX: 0 }}
                       animate={{ scaleX: 1 }}
                       transition={{ duration: 5, ease: "linear" }}
@@ -1005,7 +1045,7 @@ const SliderSection = () => {
                 {/* Active Indicator Glow */}
                 {index === currentSlide && (
                   <motion.div
-                    className="absolute inset-0 rounded-2xl border-2 border-white shadow-2xl shadow-white/20"
+                    className="absolute inset-0 rounded-2xl border-2 border-emerald-400 shadow-2xl shadow-emerald-500/20"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.3 }}
@@ -1013,16 +1053,20 @@ const SliderSection = () => {
                 )}
               </div>
 
-              {/* Video Title Tooltip */}
+              {/* Media Title Tooltip */}
               <motion.div
                 className="absolute right-full mr-4 top-1/2 transform -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none z-50"
                 initial={{ x: 20, opacity: 0 }}
                 whileHover={{ x: 0, opacity: 1 }}
               >
-                <div className="bg-black/90 backdrop-blur-md text-white px-4 py-3 rounded-xl text-sm font-medium whitespace-nowrap shadow-2xl border border-white/10">
-                  <div className="font-semibold text-white">{video.title}</div>
-                  <div className="text-white/60 text-xs mt-1">{video.subtitle}</div>
-                  <div className="w-3 h-3 bg-black/90 transform rotate-45 absolute -right-1 top-1/2 -translate-y-1/2 border-r border-b border-white/10" />
+                <div className="bg-gradient-to-r from-emerald-900 to-amber-900 backdrop-blur-md text-white px-4 py-3 rounded-xl text-sm font-medium whitespace-nowrap shadow-2xl border border-emerald-200/30">
+                  <div className="font-semibold text-white font-outfit">{media.title}</div>
+                  <div className="text-emerald-200 text-xs mt-1">{media.subtitle}</div>
+                  <div className="flex items-center gap-2 mt-2">
+                    <span className={`w-2 h-2 rounded-full ${media.type === 'video' ? 'bg-amber-400' : 'bg-emerald-400'}`}></span>
+                    <span className="text-amber-200 text-xs">{media.type === 'video' ? 'Video' : 'Image'}</span>
+                  </div>
+                  <div className="w-3 h-3 bg-gradient-to-r from-emerald-900 to-amber-900 transform rotate-45 absolute -right-1 top-1/2 -translate-y-1/2 border-r border-b border-emerald-200/30" />
                 </div>
               </motion.div>
             </motion.div>
@@ -1036,23 +1080,23 @@ const SliderSection = () => {
           animate={{ opacity: 1 }}
           transition={{ delay: 1 }}
         >
-          <div className="text-white/60 text-sm font-light tracking-widest uppercase">
-            Videos
+          <div className="text-emerald-200 text-sm font-light tracking-widest uppercase font-outfit">
+            Preview
           </div>
-          <div className="text-white/40 text-xs mt-1">
-            Click to preview
+          <div className="text-amber-200 text-xs mt-1">
+            Click to view
           </div>
         </motion.div>
       </div>
 
-      {/* Current Video Info - Bottom Right */}
+      {/* Current Media Info - Bottom Right */}
       <motion.div
-        className="absolute bottom-8 right-8 bg-black/40 backdrop-blur-md rounded-2xl px-6 py-4 border border-white/10"
+        className="absolute bottom-8 right-8 bg-gradient-to-r from-emerald-900/40 to-amber-900/40 backdrop-blur-md rounded-2xl px-6 py-4 border border-emerald-200/20"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.5 }}
       >
-        <div className="text-white text-sm">
+        <div className="text-white text-sm font-outfit">
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-2">
               <motion.div
@@ -1063,18 +1107,21 @@ const SliderSection = () => {
                   duration: 2, 
                   repeat: isAutoPlaying && !isHovering ? Infinity : 0 
                 }}
-                className="w-2 h-2 bg-green-400 rounded-full"
+                className="w-2 h-2 bg-emerald-400 rounded-full"
               />
-              <span className="text-white/60">Now Playing</span>
+              <span className="text-emerald-200">Now Showing</span>
             </div>
-            <span className="text-white font-medium">{videoData[currentSlide].title}</span>
+            <span className="text-white font-medium">{mediaData[currentSlide].title}</span>
+            <span className="text-amber-200 text-xs">
+              ({mediaData[currentSlide].type === 'video' ? 'Video' : 'Image'})
+            </span>
           </div>
         </div>
       </motion.div>
 
       {/* Auto-play Status - Top Right */}
       <motion.div
-        className="absolute top-8 right-8 bg-black/40 backdrop-blur-md rounded-full p-3 border border-white/10"
+        className="absolute top-8 right-8 bg-gradient-to-r from-emerald-900/40 to-amber-900/40 backdrop-blur-md rounded-full p-3 border border-emerald-200/20 cursor-pointer"
         whileHover={{ scale: 1.05 }}
         onClick={() => setIsAutoPlaying(!isAutoPlaying)}
       >
@@ -1082,7 +1129,7 @@ const SliderSection = () => {
           animate={{ opacity: isAutoPlaying ? 1 : 0.5 }}
           transition={{ duration: 0.3 }}
         >
-          <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+          <svg className="w-5 h-5 text-emerald-200" fill="currentColor" viewBox="0 0 24 24">
             {isAutoPlaying ? (
               <path d="M6 4h4v16H6zM14 4h4v16h-4z"/>
             ) : (
